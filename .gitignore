@@ -73,8 +73,10 @@ Plugins/**/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-/DrawnRunes/
 /DebugFiles/
 
 # Specific Plugins
 Plugins/CrystalN99423331f079V4/*
+
+**/__ExternalObjects__/**
+**/__ExternalActors__/**
