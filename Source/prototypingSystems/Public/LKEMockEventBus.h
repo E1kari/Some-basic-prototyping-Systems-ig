@@ -36,6 +36,7 @@ namespace LKEMockEvents
 	const FName Flight_PhysicsQualityChanged = FName(TEXT("Flight_PhysicsQualityChanged"));
 	const FName Flight_EnteredZone = FName(TEXT("Flight_EnteredZone"));
 	const FName Flight_ExitedZone = FName(TEXT("Flight_ExitedZone"));
+	const FName Flight_TriggerActivated = FName(TEXT("Flight_TriggerActivated"))
 
 	// === SYSTEM EVENTS (dein Modul empfaengt diese) ===
 	const FName Memory_PressureChanged = FName(TEXT("Memory_PressureChanged"));
