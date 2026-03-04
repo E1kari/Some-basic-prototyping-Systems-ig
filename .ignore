@@ -1,0 +1,13 @@
+/.cache
+/.git
+/.github
+/.idea
+/.vscode
+/Content
+/DerivedDataCache
+/Intermediate
+/Saved
+/Plugins/CrystalNodes/Content
+/Plugins/CrystalNodes/Intermediate
+/Plugins/SplinePointsMetadata/Content
+/Plugins/SplinePointsMetadata/Intermediate
