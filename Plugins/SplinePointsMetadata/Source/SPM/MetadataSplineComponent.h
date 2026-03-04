@@ -6,7 +6,7 @@
 #include <CoreMinimal.h>
 
 
-#include "MySplineComponent.generated.h"
+#include "MetadataSplineComponent.generated.h"
 
 USTRUCT()
 struct FMySplinePointParams {
@@ -18,7 +18,7 @@ public:
 };
 
 UCLASS(meta = (BlueprintSpawnableComponent))
-class SPM_API UMySplineComponent : public USplineComponent {
+class SPM_API UMetadataSplineComponent : public USplineComponent {
   GENERATED_BODY()
 
 public:

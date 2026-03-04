@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MySplineMetadataDetails.h"
+#include "SplineMetadataDetails.h"
 
 #include <IDetailGroup.h>
 #include <DetailLayoutBuilder.h>
@@ -13,11 +13,11 @@
 
 #include "SPM/MySplineMetadata.h"
 
-#define LOCTEXT_NAMESPACE "FMySplineMetadataDetails"
+#define LOCTEXT_NAMESPACE "FSplineMetadataDetails"
 
 TSharedPtr<ISplineMetadataDetails> UMySplineMetadataDetailsFactory::Create()
 {
-	return MakeShared<FMySplineMetadataDetails>();
+	return MakeShared<FSplineMetadataDetails>();
 }
 
 UClass* UMySplineMetadataDetailsFactory::GetMetadataClass() const
@@ -25,12 +25,12 @@ UClass* UMySplineMetadataDetailsFactory::GetMetadataClass() const
 	return UMySplineMetadata::StaticClass();
 }
 
-FName FMySplineMetadataDetails::GetName() const
+FName FSplineMetadataDetails::GetName() const
 {
 	return FName(TEXT("MySplineMetadataDetails"));
 }
 
-FText FMySplineMetadataDetails::GetDisplayName() const
+FText FSplineMetadataDetails::GetDisplayName() const
 {
 	return LOCTEXT("MySplineMetadataDetails", "SPM");
 }
@@ -51,7 +51,7 @@ bool UpdateMultipleValue(TOptional<T>& CurrentValue, T InValue)
 	return true;
 }
 
-void FMySplineMetadataDetails::Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys)
+void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys)
 {
 	SplineComp = InSplineComponent;
 	SelectedKeys = InSelectedKeys;
@@ -78,7 +78,7 @@ void FMySplineMetadataDetails::Update(USplineComponent* InSplineComponent, const
 	}
 }
 
-void FMySplineMetadataDetails::GenerateChildContent(IDetailGroup& DetailGroup)
+void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& DetailGroup)
 {
 	DetailGroup.AddWidgetRow()
 		.Visibility(EVisibility::Visible)
@@ -95,19 +95,19 @@ void FMySplineMetadataDetails::GenerateChildContent(IDetailGroup& DetailGroup)
 		.MaxDesiredWidth(125.0f)
 		[
 			SNew(SNumericEntryBox<float>)
-			.Value(this, &FMySplineMetadataDetails::GetTestFloat)
+			.Value(this, &FSplineMetadataDetails::GetTestFloat)
 		.AllowSpin(false)
 		.MinValue(0.0f)
 		.MaxValue(TOptional<float>())
 		.MinSliderValue(0.0f)
 		.MaxSliderValue(TOptional<float>()) // No upper limit
 		.UndeterminedString(LOCTEXT("Multiple", "Multiple"))
-		.OnValueCommitted(this, &FMySplineMetadataDetails::OnSetTestFloat)
+		.OnValueCommitted(this, &FSplineMetadataDetails::OnSetTestFloat)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		];
 }
 
-void FMySplineMetadataDetails::OnSetValues(FMySplineMetadataDetails& Details)
+void FSplineMetadataDetails::OnSetValues(FSplineMetadataDetails& Details)
 {
 	Details.SplineComp->GetSplinePointsMetadata()->Modify();
 	Details.SplineComp->UpdateSpline();
@@ -119,7 +119,7 @@ void FMySplineMetadataDetails::OnSetValues(FMySplineMetadataDetails& Details)
 	GEditor->RedrawLevelEditingViewports(true);
 }
 
-void FMySplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo)
+void FSplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo)
 {
 	if (UMySplineMetadata* Metadata = GetMetadata())
 	{
@@ -134,13 +134,13 @@ void FMySplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type 
 	}
 }
 
-UMySplineMetadata* FMySplineMetadataDetails::GetMetadata() const
+UMySplineMetadata* FSplineMetadataDetails::GetMetadata() const
 {
 	UMySplineMetadata* Metadata = SplineComp ? Cast<UMySplineMetadata>(SplineComp->GetSplinePointsMetadata()) : nullptr;
 	return Metadata;
 }
 
-TOptional<float> FMySplineMetadataDetails::GetTestFloat() const 
+TOptional<float> FSplineMetadataDetails::GetTestFloat() const 
 { 
 	return TestFloatValue; 
 }

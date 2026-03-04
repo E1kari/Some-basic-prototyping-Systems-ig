@@ -4,7 +4,7 @@
 
 #include <CoreMinimal.h>
 
-#include "MySplineComponent.h"
+#include "MetadataSplineComponent.h"
 
 #include "MySplineMetadata.generated.h"
 

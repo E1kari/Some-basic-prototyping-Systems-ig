@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MySplineActor.h"
+#include "MetadataSplineActor.h"
 
 #include "MySplineMetadata.h"
 
-AMySplineActor::AMySplineActor()
+AMetadataSplineActor::AMetadataSplineActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -13,16 +13,16 @@ AMySplineActor::AMySplineActor()
 	MySplineMetadata->AddPoint(0.0f);
 	MySplineMetadata->AddPoint(1.0f);
 
-	MySplineComponent = CreateDefaultSubobject<UMySplineComponent>(TEXT("MySplineComponent"));
+	MySplineComponent = CreateDefaultSubobject<UMetadataSplineComponent>(TEXT("MySplineComponent"));
 	SetRootComponent(MySplineComponent);
 }
 
-UMySplineMetadata* AMySplineActor::GetSplineMetadata() const 
+UMySplineMetadata* AMetadataSplineActor::GetSplineMetadata() const 
 { 
 	return MySplineMetadata; 
 }
 
-float AMySplineActor::GetTestFloatAtSplinePoint(int32 PointIndex)
+float AMetadataSplineActor::GetTestFloatAtSplinePoint(int32 PointIndex)
 {
 	if (ensure(MySplineMetadata))
 	{

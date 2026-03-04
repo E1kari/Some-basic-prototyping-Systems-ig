@@ -5,17 +5,17 @@
 #include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
 
-#include "MySplineActor.generated.h"
+#include "MetadataSplineActor.generated.h"
 
 class UMySplineMetadata;
-class UMySplineComponent;
+class UMetadataSplineComponent;
 
 UCLASS()
-class SPM_API AMySplineActor : public AActor {
+class SPM_API AMetadataSplineActor : public AActor {
   GENERATED_BODY()
 
 public:
-  AMySplineActor();
+  AMetadataSplineActor();
   UMySplineMetadata *GetSplineMetadata() const;
 
   UFUNCTION(BlueprintCallable)
@@ -26,5 +26,5 @@ private:
   UMySplineMetadata *MySplineMetadata = nullptr;
 
   UPROPERTY(VisibleAnywhere)
-  UMySplineComponent *MySplineComponent = nullptr;
+  UMetadataSplineComponent *MySplineComponent = nullptr;
 };

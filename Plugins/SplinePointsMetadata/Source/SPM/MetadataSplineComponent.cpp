@@ -1,27 +1,27 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MySplineComponent.h"
+#include "MetadataSplineComponent.h"
 
-#include "MySplineActor.h"
+#include "MetadataSplineActor.h"
 #include "MySplineMetadata.h"
 
-USplineMetadata *UMySplineComponent::GetSplinePointsMetadata() {
-  if (AMySplineActor *Actor = Cast<AMySplineActor>(GetOwner())) {
+USplineMetadata *UMetadataSplineComponent::GetSplinePointsMetadata() {
+  if (AMetadataSplineActor *Actor = Cast<AMetadataSplineActor>(GetOwner())) {
     return Actor->GetSplineMetadata();
   }
 
   return nullptr;
 }
 
-const USplineMetadata *UMySplineComponent::GetSplinePointsMetadata() const {
-  if (AMySplineActor *Actor = Cast<AMySplineActor>(GetOwner())) {
+const USplineMetadata *UMetadataSplineComponent::GetSplinePointsMetadata() const {
+  if (AMetadataSplineActor *Actor = Cast<AMetadataSplineActor>(GetOwner())) {
     return Actor->GetSplineMetadata();
   }
 
   return nullptr;
 }
 
-void UMySplineComponent::FixupPoints() {
+void UMetadataSplineComponent::FixupPoints() {
 #if WITH_EDITORONLY_DATA
   // Keep metadata in sync
   if (GetSplinePointsMetadata()) {
@@ -31,27 +31,27 @@ void UMySplineComponent::FixupPoints() {
 #endif
 }
 
-void UMySplineComponent::PostLoad() {
+void UMetadataSplineComponent::PostLoad() {
   Super::PostLoad();
 
   FixupPoints();
 }
 
-void UMySplineComponent::PostDuplicate(bool bDuplicateForPie) {
+void UMetadataSplineComponent::PostDuplicate(bool bDuplicateForPie) {
   Super::PostDuplicate(bDuplicateForPie);
 
   FixupPoints();
 }
 
 #if WITH_EDITOR
-void UMySplineComponent::PostEditChangeProperty(
+void UMetadataSplineComponent::PostEditChangeProperty(
     FPropertyChangedEvent &PropertyChangedEvent) {
   Super::PostEditChangeProperty(PropertyChangedEvent);
 
   FixupPoints();
 }
 
-void UMySplineComponent::PostEditImport() {
+void UMetadataSplineComponent::PostEditImport() {
   Super::PostEditImport();
 
   FixupPoints();

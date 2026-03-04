@@ -5,9 +5,9 @@
 #include <CoreMinimal.h>
 #include <SplineMetadataDetailsFactory.h>
 
-#include "MySplineMetadataDetails.generated.h"
+#include "SplineMetadataDetails.generated.h"
 
-class FMySplineMetadataDetails;
+class FSplineMetadataDetails;
 class UMySplineMetadata;
 
 UCLASS()
@@ -20,11 +20,11 @@ class SPMEDITOR_API UMySplineMetadataDetailsFactory : public USplineMetadataDeta
 	virtual UClass* GetMetadataClass() const override;
 };
 
-class SPMEDITOR_API FMySplineMetadataDetails : public ISplineMetadataDetails, public TSharedFromThis<FMySplineMetadataDetails>
+class SPMEDITOR_API FSplineMetadataDetails : public ISplineMetadataDetails, public TSharedFromThis<FSplineMetadataDetails>
 {
 public:
 
-	virtual ~FMySplineMetadataDetails() {}
+	virtual ~FSplineMetadataDetails() {}
 	virtual FName GetName() const override;
 	virtual FText GetDisplayName() const override;
 	virtual void Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys) override;
@@ -34,7 +34,7 @@ private:
 	UMySplineMetadata* GetMetadata() const;
 	TOptional<float> GetTestFloat() const;
 	void OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo);
-	void OnSetValues(FMySplineMetadataDetails& Details);
+	void OnSetValues(FSplineMetadataDetails& Details);
 
 	TOptional<float> TestFloatValue;
 	USplineComponent* SplineComp = nullptr;
