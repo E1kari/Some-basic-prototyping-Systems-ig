@@ -9,7 +9,7 @@
 #include "MetadataSplineComponent.generated.h"
 
 USTRUCT()
-struct FMySplinePointParams {
+struct FSplinePointParams {
   GENERATED_BODY()
 
 public:

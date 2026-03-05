@@ -8,27 +8,27 @@ AMetadataSplineActor::AMetadataSplineActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	MySplineMetadata = CreateDefaultSubobject<UCustomSplineMetadata>(TEXT("MySplineMetadata"));
-	MySplineMetadata->Reset(2);
-	MySplineMetadata->AddPoint(0.0f);
-	MySplineMetadata->AddPoint(1.0f);
+	SplineMetadata = CreateDefaultSubobject<UCustomSplineMetadata>(TEXT("SplineMetadata"));
+	SplineMetadata->Reset(2);
+	SplineMetadata->AddPoint(0.0f);
+	SplineMetadata->AddPoint(1.0f);
 
-	MySplineComponent = CreateDefaultSubobject<UMetadataSplineComponent>(TEXT("MySplineComponent"));
-	SetRootComponent(MySplineComponent);
+	MetadataSplineComponent = CreateDefaultSubobject<UMetadataSplineComponent>(TEXT("MetadataSplineComponent"));
+	SetRootComponent(MetadataSplineComponent);
 }
 
 UCustomSplineMetadata* AMetadataSplineActor::GetSplineMetadata() const 
 { 
-	return MySplineMetadata; 
+	return SplineMetadata; 
 }
 
 float AMetadataSplineActor::GetTestFloatAtSplinePoint(int32 PointIndex)
 {
-	if (ensure(MySplineMetadata))
+	if (ensure(SplineMetadata))
 	{
-		if (ensure(MySplineMetadata->PointParams.IsValidIndex(PointIndex)))
+		if (ensure(SplineMetadata->PointParams.IsValidIndex(PointIndex)))
 		{
-			return MySplineMetadata->PointParams[PointIndex].TestFloat;
+			return SplineMetadata->PointParams[PointIndex].TestFloat;
 		}
 	}
 

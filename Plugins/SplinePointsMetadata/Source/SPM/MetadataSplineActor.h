@@ -23,8 +23,8 @@ public:
 
 private:
   UPROPERTY(Instanced, Export)
-  UCustomSplineMetadata *MySplineMetadata = nullptr;
+  UCustomSplineMetadata *SplineMetadata = nullptr;
 
   UPROPERTY(VisibleAnywhere)
-  UMetadataSplineComponent *MySplineComponent = nullptr;
+  UMetadataSplineComponent *MetadataSplineComponent = nullptr;
 };
