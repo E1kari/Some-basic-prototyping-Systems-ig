@@ -6,10 +6,10 @@
 
 #include "MetadataSplineComponent.h"
 
-#include "MySplineMetadata.generated.h"
+#include "CustomSplineMetadata.generated.h"
 
 UCLASS()
-class SPM_API UMySplineMetadata : public USplineMetadata
+class SPM_API UCustomSplineMetadata : public USplineMetadata
 {
 	GENERATED_BODY()
 

@@ -3,7 +3,7 @@
 #include "MetadataSplineComponent.h"
 
 #include "MetadataSplineActor.h"
-#include "MySplineMetadata.h"
+#include "CustomSplineMetadata.h"
 
 USplineMetadata *UMetadataSplineComponent::GetSplinePointsMetadata() {
   if (AMetadataSplineActor *Actor = Cast<AMetadataSplineActor>(GetOwner())) {

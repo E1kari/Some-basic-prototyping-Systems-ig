@@ -11,7 +11,7 @@
 #include <ComponentVisualizer.h>
 #include <Editor.h>
 
-#include "SPM/MySplineMetadata.h"
+#include "SPM/CustomSplineMetadata.h"
 
 #define LOCTEXT_NAMESPACE "FSplineMetadataDetails"
 
@@ -22,7 +22,7 @@ TSharedPtr<ISplineMetadataDetails> UMySplineMetadataDetailsFactory::Create()
 
 UClass* UMySplineMetadataDetailsFactory::GetMetadataClass() const
 {
-	return UMySplineMetadata::StaticClass();
+	return UCustomSplineMetadata::StaticClass();
 }
 
 FName FSplineMetadataDetails::GetName() const
@@ -61,7 +61,7 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 	{
 		bool bUpdateTestFloat = true;
 
-		UMySplineMetadata* Metadata = Cast<UMySplineMetadata>(InSplineComponent->GetSplinePointsMetadata());
+		UCustomSplineMetadata* Metadata = Cast<UCustomSplineMetadata>(InSplineComponent->GetSplinePointsMetadata());
 		if (Metadata)
 		{
 			for (int32 Index : InSelectedKeys)
@@ -121,7 +121,7 @@ void FSplineMetadataDetails::OnSetValues(FSplineMetadataDetails& Details)
 
 void FSplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo)
 {
-	if (UMySplineMetadata* Metadata = GetMetadata())
+	if (UCustomSplineMetadata* Metadata = GetMetadata())
 	{
 		const FScopedTransaction Transaction(LOCTEXT("SetTestFloat", "Set spline point test float"));
 
@@ -134,9 +134,9 @@ void FSplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type Co
 	}
 }
 
-UMySplineMetadata* FSplineMetadataDetails::GetMetadata() const
+UCustomSplineMetadata* FSplineMetadataDetails::GetMetadata() const
 {
-	UMySplineMetadata* Metadata = SplineComp ? Cast<UMySplineMetadata>(SplineComp->GetSplinePointsMetadata()) : nullptr;
+	UCustomSplineMetadata* Metadata = SplineComp ? Cast<UCustomSplineMetadata>(SplineComp->GetSplinePointsMetadata()) : nullptr;
 	return Metadata;
 }
 

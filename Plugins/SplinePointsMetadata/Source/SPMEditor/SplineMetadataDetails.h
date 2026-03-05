@@ -8,7 +8,7 @@
 #include "SplineMetadataDetails.generated.h"
 
 class FSplineMetadataDetails;
-class UMySplineMetadata;
+class UCustomSplineMetadata;
 
 UCLASS()
 class SPMEDITOR_API UMySplineMetadataDetailsFactory : public USplineMetadataDetailsFactoryBase
@@ -31,7 +31,7 @@ public:
 	virtual void GenerateChildContent(IDetailGroup& DetailGroup) override;
 
 private:
-	UMySplineMetadata* GetMetadata() const;
+	UCustomSplineMetadata* GetMetadata() const;
 	TOptional<float> GetTestFloat() const;
 	void OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo);
 	void OnSetValues(FSplineMetadataDetails& Details);

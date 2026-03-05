@@ -7,7 +7,7 @@
 
 #include "MetadataSplineActor.generated.h"
 
-class UMySplineMetadata;
+class UCustomSplineMetadata;
 class UMetadataSplineComponent;
 
 UCLASS()
@@ -16,14 +16,14 @@ class SPM_API AMetadataSplineActor : public AActor {
 
 public:
   AMetadataSplineActor();
-  UMySplineMetadata *GetSplineMetadata() const;
+  UCustomSplineMetadata *GetSplineMetadata() const;
 
   UFUNCTION(BlueprintCallable)
   float GetTestFloatAtSplinePoint(int32 PointIndex);
 
 private:
   UPROPERTY(Instanced, Export)
-  UMySplineMetadata *MySplineMetadata = nullptr;
+  UCustomSplineMetadata *MySplineMetadata = nullptr;
 
   UPROPERTY(VisibleAnywhere)
   UMetadataSplineComponent *MySplineComponent = nullptr;

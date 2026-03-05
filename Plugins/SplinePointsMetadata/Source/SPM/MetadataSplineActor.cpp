@@ -2,13 +2,13 @@
 
 #include "MetadataSplineActor.h"
 
-#include "MySplineMetadata.h"
+#include "CustomSplineMetadata.h"
 
 AMetadataSplineActor::AMetadataSplineActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	MySplineMetadata = CreateDefaultSubobject<UMySplineMetadata>(TEXT("MySplineMetadata"));
+	MySplineMetadata = CreateDefaultSubobject<UCustomSplineMetadata>(TEXT("MySplineMetadata"));
 	MySplineMetadata->Reset(2);
 	MySplineMetadata->AddPoint(0.0f);
 	MySplineMetadata->AddPoint(1.0f);
@@ -17,7 +17,7 @@ AMetadataSplineActor::AMetadataSplineActor()
 	SetRootComponent(MySplineComponent);
 }
 
-UMySplineMetadata* AMetadataSplineActor::GetSplineMetadata() const 
+UCustomSplineMetadata* AMetadataSplineActor::GetSplineMetadata() const 
 { 
 	return MySplineMetadata; 
 }
