@@ -2,26 +2,51 @@
 
 #include "MetadataSplineComponent.h"
 
-#include "MetadataSplineActor.h"
 #include "CustomSplineMetadata.h"
 
-USplineMetadata *UMetadataSplineComponent::GetSplinePointsMetadata() {
-  if (AMetadataSplineActor *Actor = Cast<AMetadataSplineActor>(GetOwner())) {
-    return Actor->GetSplineMetadata();
+
+UMetadataSplineComponent::UMetadataSplineComponent()
+{
+  SplineMetadata = CreateDefaultSubobject<UCustomSplineMetadata>(TEXT("SplineMetadata"));
+}
+
+void UMetadataSplineComponent::EnsureSplineMetadata()
+{
+  if (!SplineMetadata)
+  {
+    SplineMetadata = NewObject<UCustomSplineMetadata>(this, TEXT("SplineMetadata"), RF_Transactional);
+  }
+}
+
+float UMetadataSplineComponent::GetTestFloatAtSplinePoint(int32 PointIndex)
+{
+  if (ensure(SplineMetadata))
+  {
+    if (ensure(SplineMetadata->PointParams.IsValidIndex(PointIndex)))
+    {
+      return SplineMetadata->PointParams[PointIndex].TestFloat;
+    }
   }
 
-  return nullptr;
+  return 0.0f;
+}
+
+UCustomSplineMetadata* UMetadataSplineComponent::GetSplineMetadata() const 
+{ 
+  return SplineMetadata; 
+}
+
+USplineMetadata *UMetadataSplineComponent::GetSplinePointsMetadata() {
+  EnsureSplineMetadata();
+  return SplineMetadata;
 }
 
 const USplineMetadata *UMetadataSplineComponent::GetSplinePointsMetadata() const {
-  if (AMetadataSplineActor *Actor = Cast<AMetadataSplineActor>(GetOwner())) {
-    return Actor->GetSplineMetadata();
-  }
-
-  return nullptr;
+  return SplineMetadata;
 }
 
 void UMetadataSplineComponent::FixupPoints() {
+  EnsureSplineMetadata();
 #if WITH_EDITORONLY_DATA
   // Keep metadata in sync
   if (GetSplinePointsMetadata()) {
@@ -34,12 +59,14 @@ void UMetadataSplineComponent::FixupPoints() {
 void UMetadataSplineComponent::PostLoad() {
   Super::PostLoad();
 
+  EnsureSplineMetadata();
   FixupPoints();
 }
 
 void UMetadataSplineComponent::PostDuplicate(bool bDuplicateForPie) {
   Super::PostDuplicate(bDuplicateForPie);
 
+  EnsureSplineMetadata();
   FixupPoints();
 }
 

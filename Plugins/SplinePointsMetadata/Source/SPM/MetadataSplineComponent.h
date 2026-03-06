@@ -8,7 +8,10 @@
 
 #include "MetadataSplineComponent.generated.h"
 
+class UCustomSplineMetadata;
+
 USTRUCT()
+
 struct FSplinePointParams {
   GENERATED_BODY()
 
@@ -22,8 +25,15 @@ class SPM_API UMetadataSplineComponent : public USplineComponent {
   GENERATED_BODY()
 
 public:
-  virtual USplineMetadata *GetSplinePointsMetadata();
-  virtual const USplineMetadata *GetSplinePointsMetadata() const;
+  UMetadataSplineComponent();
+
+  UFUNCTION(BlueprintCallable)
+  float GetTestFloatAtSplinePoint(int32 PointIndex);
+  
+  UCustomSplineMetadata *GetSplineMetadata() const;
+  
+  virtual USplineMetadata *GetSplinePointsMetadata() override;
+  virtual const USplineMetadata *GetSplinePointsMetadata() const override;
   virtual void PostLoad() override;
   virtual void PostDuplicate(bool bDuplicateForPie) override;
 #if WITH_EDITOR
@@ -32,4 +42,10 @@ public:
   virtual void PostEditImport() override;
 #endif
   void FixupPoints();
+  
+  private:
+  void EnsureSplineMetadata();
+
+  UPROPERTY(Instanced, Export)
+  UCustomSplineMetadata *SplineMetadata = nullptr;
 };
