@@ -18,17 +18,17 @@ void UMetadataSplineComponent::EnsureSplineMetadata()
   }
 }
 
-FZoneDistanceData UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 PointIndex)
+TArray<FZoneLayer> UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 PointIndex)
 {
   if (ensure(SplineMetadata))
   {
     if (ensure(SplineMetadata->PointParams.IsValidIndex(PointIndex)))
     {
-      return SplineMetadata->PointParams[PointIndex].TestData;
+      return SplineMetadata->PointParams[PointIndex].Zones;
     }
   }
 
-  return {{EZoneName::ZoneDefault, 3, .25}, 10};
+  return {{{EZoneName::ZoneDefault, 0, 0}, 0}};
 }
 
 UCustomSplineMetadata* UMetadataSplineComponent::GetSplineMetadata() const 
@@ -84,3 +84,4 @@ void UMetadataSplineComponent::PostEditImport() {
   FixupPoints();
 }
 #endif
+

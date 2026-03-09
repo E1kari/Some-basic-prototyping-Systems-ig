@@ -4,7 +4,9 @@
 
 #include <CoreMinimal.h>
 
+#include <Components/SplineComponent.h>
 #include "MetadataSplineComponent.h"
+#include "zoneData.h"
 
 #include "CustomSplineMetadata.generated.h"
 

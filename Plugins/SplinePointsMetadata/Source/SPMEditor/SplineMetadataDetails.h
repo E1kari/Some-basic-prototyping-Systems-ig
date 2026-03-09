@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <CoreMinimal.h>
@@ -26,15 +27,16 @@ public:
 	virtual FName GetName() const override;
 	virtual FText GetDisplayName() const override;
 	virtual void Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys) override;
-	virtual void GenerateChildContent(IDetailGroup& DetailGroup) override;
+	//virtual void GenerateChildContent(IDetailGroup& DetailGroup) override;
 
 private:
 	UCustomSplineMetadata* GetMetadata() const;
-	TOptional<FZoneDistanceData> GetTestFloat() const;
-	void OnSetTestFloat(FZoneDistanceData NewValue, ETextCommit::Type CommitInfo);
+	TOptional<FZoneLayer> GetTestFloat() const;
+	void OnSetTestFloat(FZoneLayer NewValue, ETextCommit::Type CommitInfo);
 	void OnSetValues(FSplineMetadataDetails& Details);
 
-	TOptional<FZoneDistanceData> TestValue;
+	TOptional<FZoneLayer> TestValue;
 	USplineComponent* SplineComp = nullptr;
 	TSet<int32> SelectedKeys;
 };
+*/

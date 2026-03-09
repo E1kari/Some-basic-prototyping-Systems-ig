@@ -29,7 +29,7 @@ struct FZoneData
 };
 
 USTRUCT(BlueprintType)
-struct FZoneDistanceData
+struct FZoneLayer
 {
 	GENERATED_BODY()
 
@@ -38,4 +38,23 @@ struct FZoneDistanceData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Distance = 10.0f;
+};
+
+USTRUCT(BlueprintType)
+struct FSplinePointParams
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FZoneLayer> Zones;
+};
+
+UCLASS(BlueprintType)
+class UZoneLibraryAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FZoneData> Zones;
 };

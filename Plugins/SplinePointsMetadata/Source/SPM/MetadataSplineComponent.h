@@ -2,27 +2,13 @@
 
 #pragma once
 
-#include <Components/SplineComponent.h>
 #include <CoreMinimal.h>
-#include "zoneData.h"
 
+#include <Components/SplineComponent.h>
 #include "MetadataSplineComponent.generated.h"
 
 class UCustomSplineMetadata;
 
-USTRUCT()
-
-struct FSplinePointParams {
-  GENERATED_BODY()
-
-public:
-  UPROPERTY(EditAnywhere)
-  FZoneDistanceData TestData =
-  {
-    {EZoneName::ZoneDefault, 3, .25},
-    10
-  };
-};
 
 UCLASS(meta = (BlueprintSpawnableComponent))
 class SPM_API UMetadataSplineComponent : public USplineComponent {
@@ -32,7 +18,7 @@ public:
   UMetadataSplineComponent();
 
   UFUNCTION(BlueprintCallable)
-  FZoneDistanceData GetTestDataAtSplinePoint(int32 PointIndex);
+  TArray<FZoneLayer> GetTestDataAtSplinePoint(int32 PointIndex);
   
   UCustomSplineMetadata *GetSplineMetadata() const;
   
@@ -53,3 +39,4 @@ public:
   UPROPERTY(Instanced, Export)
   UCustomSplineMetadata *SplineMetadata = nullptr;
 };
+
