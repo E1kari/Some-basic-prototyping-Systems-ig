@@ -4,7 +4,7 @@
 
 #include <Components/SplineComponent.h>
 #include <CoreMinimal.h>
-
+#include "zoneData.h"
 
 #include "MetadataSplineComponent.generated.h"
 
@@ -17,7 +17,11 @@ struct FSplinePointParams {
 
 public:
   UPROPERTY(EditAnywhere)
-  float TestFloat = 1.0f;
+  FZoneDistanceData TestData =
+  {
+    {EZoneName::ZoneDefault, 3, .25},
+    10
+  };
 };
 
 UCLASS(meta = (BlueprintSpawnableComponent))
@@ -28,7 +32,7 @@ public:
   UMetadataSplineComponent();
 
   UFUNCTION(BlueprintCallable)
-  float GetTestFloatAtSplinePoint(int32 PointIndex);
+  FZoneDistanceData GetTestDataAtSplinePoint(int32 PointIndex);
   
   UCustomSplineMetadata *GetSplineMetadata() const;
   

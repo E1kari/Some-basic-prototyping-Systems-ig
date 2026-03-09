@@ -1,9 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include <CoreMinimal.h>
 #include <SplineMetadataDetailsFactory.h>
+#include "SPM/zoneData.h"
 
 #include "SplineMetadataDetails.generated.h"
 
@@ -23,7 +22,6 @@ class SPMEDITOR_API UMySplineMetadataDetailsFactory : public USplineMetadataDeta
 class SPMEDITOR_API FSplineMetadataDetails : public ISplineMetadataDetails, public TSharedFromThis<FSplineMetadataDetails>
 {
 public:
-
 	virtual ~FSplineMetadataDetails() {}
 	virtual FName GetName() const override;
 	virtual FText GetDisplayName() const override;
@@ -32,11 +30,11 @@ public:
 
 private:
 	UCustomSplineMetadata* GetMetadata() const;
-	TOptional<float> GetTestFloat() const;
-	void OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo);
+	TOptional<FZoneDistanceData> GetTestFloat() const;
+	void OnSetTestFloat(FZoneDistanceData NewValue, ETextCommit::Type CommitInfo);
 	void OnSetValues(FSplineMetadataDetails& Details);
 
-	TOptional<float> TestFloatValue;
+	TOptional<FZoneDistanceData> TestValue;
 	USplineComponent* SplineComp = nullptr;
 	TSet<int32> SelectedKeys;
 };

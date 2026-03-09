@@ -5,7 +5,7 @@
   "FriendlyName": "Spline Points Metadata (MintBanjo example)",
   "Description": "Wraps the SPM and SPMEditor modules from MintBanjo's UE5_SplinePointsMetadata sample project.",
   "Category": "Code",
-  "EnabledByDefault": false,
+  "EnabledByDefault": true,
   "CanContainContent": true,
   "Modules": [
     { "Name": "SPM", "Type": "Runtime", "LoadingPhase": "Default" },

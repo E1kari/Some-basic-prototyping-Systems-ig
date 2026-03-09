@@ -55,7 +55,7 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 {
 	SplineComp = InSplineComponent;
 	SelectedKeys = InSelectedKeys;
-	TestFloatValue.Reset();
+	TestValue.Reset();
 
 	if (InSplineComponent)
 	{
@@ -70,7 +70,7 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 				{
 					if (bUpdateTestFloat)
 					{
-						bUpdateTestFloat = UpdateMultipleValue(TestFloatValue, Metadata->PointParams[Index].TestFloat);
+						bUpdateTestFloat = UpdateMultipleValue(TestValue, Metadata->PointParams[Index].TestData);
 					}
 				}
 			}
@@ -80,31 +80,16 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& DetailGroup)
 {
-	DetailGroup.AddWidgetRow()
-		.Visibility(EVisibility::Visible)
-		.NameContent()
-		.HAlign(HAlign_Left)
-		.VAlign(VAlign_Center)
-		[
-			SNew(STextBlock)
-			.Text(LOCTEXT("TestFloat", "TestFloat"))
-		.Font(IDetailLayoutBuilder::GetDetailFont())
-		]
-	.ValueContent()
-		.MinDesiredWidth(125.0f)
-		.MaxDesiredWidth(125.0f)
-		[
-			SNew(SNumericEntryBox<float>)
-			.Value(this, &FSplineMetadataDetails::GetTestFloat)
-		.AllowSpin(false)
-		.MinValue(0.0f)
-		.MaxValue(TOptional<float>())
-		.MinSliderValue(0.0f)
-		.MaxSliderValue(TOptional<float>()) // No upper limit
-		.UndeterminedString(LOCTEXT("Multiple", "Multiple"))
-		.OnValueCommitted(this, &FSplineMetadataDetails::OnSetTestFloat)
-		.Font(IDetailLayoutBuilder::GetDetailFont())
-		];
+	UCustomSplineMetadata* Metadata = GetMetadata();
+	if (!Metadata)
+		return;
+
+	IDetailLayoutBuilder& Layout = DetailGroup.GetParentLayout();
+
+	TSharedRef<IPropertyHandle> ParamsHandle =
+		Layout.GetProperty(GET_MEMBER_NAME_CHECKED(UCustomSplineMetadata, PointParams));
+
+	DetailGroup.AddPropertyRow(ParamsHandle);
 }
 
 void FSplineMetadataDetails::OnSetValues(FSplineMetadataDetails& Details)
@@ -119,7 +104,7 @@ void FSplineMetadataDetails::OnSetValues(FSplineMetadataDetails& Details)
 	GEditor->RedrawLevelEditingViewports(true);
 }
 
-void FSplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type CommitInfo)
+void FSplineMetadataDetails::OnSetTestFloat(FZoneDistanceData NewValue, ETextCommit::Type CommitInfo)
 {
 	if (UCustomSplineMetadata* Metadata = GetMetadata())
 	{
@@ -127,7 +112,7 @@ void FSplineMetadataDetails::OnSetTestFloat(float NewValue, ETextCommit::Type Co
 
 		for (int32 Index : SelectedKeys)
 		{
-			Metadata->PointParams[Index].TestFloat = NewValue;
+			Metadata->PointParams[Index].TestData = NewValue;
 		}
 
 		OnSetValues(*this);
@@ -140,9 +125,9 @@ UCustomSplineMetadata* FSplineMetadataDetails::GetMetadata() const
 	return Metadata;
 }
 
-TOptional<float> FSplineMetadataDetails::GetTestFloat() const 
+TOptional<FZoneDistanceData> FSplineMetadataDetails::GetTestFloat() const 
 { 
-	return TestFloatValue; 
+	return TestValue; 
 }
 
 #undef LOCTEXT_NAMESPACE

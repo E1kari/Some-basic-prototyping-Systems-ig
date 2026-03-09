@@ -18,17 +18,17 @@ void UMetadataSplineComponent::EnsureSplineMetadata()
   }
 }
 
-float UMetadataSplineComponent::GetTestFloatAtSplinePoint(int32 PointIndex)
+FZoneDistanceData UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 PointIndex)
 {
   if (ensure(SplineMetadata))
   {
     if (ensure(SplineMetadata->PointParams.IsValidIndex(PointIndex)))
     {
-      return SplineMetadata->PointParams[PointIndex].TestFloat;
+      return SplineMetadata->PointParams[PointIndex].TestData;
     }
   }
 
-  return 0.0f;
+  return {{EZoneName::ZoneDefault, 3, .25}, 10};
 }
 
 UCustomSplineMetadata* UMetadataSplineComponent::GetSplineMetadata() const 
