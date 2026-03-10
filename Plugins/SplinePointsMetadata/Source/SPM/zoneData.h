@@ -38,6 +38,18 @@ struct FZoneLayer
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Distance = 10.0f;
+	
+	
+	bool operator==(const FZoneLayer& Other) const
+	{
+		return ZoneName == Other.ZoneName
+			&& Distance == Other.Distance;
+	}
+
+	bool operator!=(const FZoneLayer& Other) const
+	{
+		return !(*this == Other);
+	}
 };
 
 UCLASS(BlueprintType)
