@@ -5,13 +5,13 @@
 
 void UCustomSplineMetadata::InsertPoint(int32 Index, float t, bool bClosedLoop)
 {
-	if (Index >= PointParams.Num())
+	if (Index >= PointParams.ZoneLayers.Num())
 	{
 		AddPoint(static_cast<float>(Index));
 	}
 	else
 	{
-		PointParams.Insert(FZoneLayer{}, Index);
+		PointParams.ZoneLayers.Insert(FZoneLayer{}, Index);
 	}
 
 	Modify();
@@ -24,20 +24,20 @@ void UCustomSplineMetadata::UpdatePoint(int32 Index, float t, bool bClosedLoop)
 
 void UCustomSplineMetadata::AddPoint(float InputKey)
 {
-	PointParams.Add(FZoneLayer{});
+	PointParams.ZoneLayers.Add(FZoneLayer{});
 	Modify();
 }
 
 void UCustomSplineMetadata::RemovePoint(int32 Index)
 {
-	PointParams.RemoveAt(Index);
+	PointParams.ZoneLayers.RemoveAt(Index);
 	Modify();
 }
 
 void UCustomSplineMetadata::DuplicatePoint(int32 Index)
 {
-	FZoneLayer NewVal = PointParams[Index];
-	PointParams.Insert(NewVal, Index);
+	FZoneLayer NewVal = PointParams.ZoneLayers[Index];
+	PointParams.ZoneLayers.Insert(NewVal, Index);
 	Modify();
 }
 
@@ -45,28 +45,28 @@ void UCustomSplineMetadata::CopyPoint(const USplineMetadata* FromSplineMetadata,
 {
 	if (const UCustomSplineMetadata* FromMetadata = Cast<UCustomSplineMetadata>(FromSplineMetadata))
 	{
-		PointParams[ToIndex] = PointParams[FromIndex];
+		PointParams.ZoneLayers[ToIndex] = PointParams.ZoneLayers[FromIndex];
 		Modify();
 	}
 }
 
 void UCustomSplineMetadata::Reset(int32 NumPoints)
 {
-	PointParams.Reset(NumPoints);
+	PointParams.ZoneLayers.Reset(NumPoints);
 	Modify();
 }
 
 void UCustomSplineMetadata::Fixup(int32 NumPoints, USplineComponent* SplineComp)
 {
-	if (PointParams.Num() > NumPoints)
+	if (PointParams.ZoneLayers.Num() > NumPoints)
 	{
-		PointParams.RemoveAt(NumPoints, PointParams.Num() - NumPoints);
+		PointParams.ZoneLayers.RemoveAt(NumPoints, PointParams.ZoneLayers.Num() - NumPoints);
 		Modify();
 	}
 
-	while (PointParams.Num() < NumPoints)
+	while (PointParams.ZoneLayers.Num() < NumPoints)
 	{
-		PointParams.Add(FZoneLayer{});
+		PointParams.ZoneLayers.Add(FZoneLayer{});
 		Modify();
 	}
 }

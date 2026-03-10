@@ -1,41 +1,57 @@
-
 #pragma once
 
-#include <CoreMinimal.h>
-#include <SplineMetadataDetailsFactory.h>
-#include "SPM/zoneData.h"
-
+#include "CoreMinimal.h"
+#include "SplineMetadataDetailsFactory.h"
+#include "SPM/ZoneData.h"
 #include "SplineMetadataDetails.generated.h"
 
-class FSplineMetadataDetails;
 class UCustomSplineMetadata;
+class USplineComponent;
+class SVerticalBox;
 
 UCLASS()
 class SPMEDITOR_API UMySplineMetadataDetailsFactory : public USplineMetadataDetailsFactoryBase
 {
 	GENERATED_BODY()
 
-	virtual ~UMySplineMetadataDetailsFactory() {}
+public:
 	virtual TSharedPtr<ISplineMetadataDetails> Create() override;
 	virtual UClass* GetMetadataClass() const override;
 };
 
-class SPMEDITOR_API FSplineMetadataDetails : public ISplineMetadataDetails, public TSharedFromThis<FSplineMetadataDetails>
+class SPMEDITOR_API FSplineMetadataDetails
+	: public ISplineMetadataDetails
+	, public TSharedFromThis<FSplineMetadataDetails>
 {
 public:
-	virtual ~FSplineMetadataDetails() {}
+	virtual ~FSplineMetadataDetails() = default;
+
 	virtual FName GetName() const override;
 	virtual FText GetDisplayName() const override;
 	virtual void Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys) override;
-	//virtual void GenerateChildContent(IDetailGroup& DetailGroup) override;
+	virtual void GenerateChildContent(IDetailGroup& InGroup) override;
 
 private:
 	UCustomSplineMetadata* GetMetadata() const;
-	TOptional<FZoneLayer> GetZoneLayer() const;
-	void OnSetZoneLayer(FZoneLayer NewValue, ETextCommit::Type CommitInfo);
-	void OnSetValues(FSplineMetadataDetails& Details);
+	FSplinePointParams* GetSelectedPointParams() const;
+	const FSplinePointParams* GetSelectedPointParamsConst() const;
 
-	TOptional<FZoneLayer> TestValue;
+	void RebuildZoneArrayWidget();
+	void NotifyChanged();
+
+	void OnAddZoneLayer();
+	void OnRemoveZoneLayer(int32 LayerIndex);
+
+	TOptional<float> GetLayerDistance(int32 LayerIndex) const;
+	void OnLayerDistanceCommitted(float NewValue, ETextCommit::Type CommitType, int32 LayerIndex);
+
+	void OnLayerZoneNameChanged(TSharedPtr<EZoneName> NewSelection, ESelectInfo::Type SelectInfo, int32 LayerIndex);
+	FText GetCurrentZoneLabel(int32 LayerIndex) const;
+
+private:
 	USplineComponent* SplineComp = nullptr;
 	TSet<int32> SelectedKeys;
+
+	TArray<TSharedPtr<EZoneName>> ZoneOptions;
+	TSharedPtr<SVerticalBox> ZoneListBox;
 };

@@ -10,8 +10,12 @@ enum class EZoneName : uint8
 	ZoneCone    UMETA(DisplayName = "Cone"),
 	Zone0       UMETA(DisplayName = "Zone 0"),
 	Zone1       UMETA(DisplayName = "Zone 1"),
-	Zone2       UMETA(DisplayName = "Zone 2")
+	Zone2       UMETA(DisplayName = "Zone 2"),
+	Count		UMETA(Hidden)
+	
 };
+ENUM_RANGE_BY_COUNT(EZoneName, EZoneName::Count)
+
 
 USTRUCT(BlueprintType)
 struct FZoneData
@@ -38,6 +42,27 @@ struct FZoneLayer
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Distance = 10.0f;
+	
+	
+	bool operator==(const FZoneLayer& Other) const
+	{
+		return ZoneName == Other.ZoneName
+			&& Distance == Other.Distance;
+	}
+
+	bool operator!=(const FZoneLayer& Other) const
+	{
+		return !(*this == Other);
+	}
+};
+
+USTRUCT(BlueprintType)
+struct FSplinePointParams
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FZoneLayer> ZoneLayers;
 };
 
 UCLASS(BlueprintType)
