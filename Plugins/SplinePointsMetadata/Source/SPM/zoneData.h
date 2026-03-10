@@ -34,19 +34,10 @@ struct FZoneLayer
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FZoneData ZoneData;
+	EZoneName ZoneName = EZoneName::ZoneDefault;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Distance = 10.0f;
-};
-
-USTRUCT(BlueprintType)
-struct FSplinePointParams
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FZoneLayer> Zones;
 };
 
 UCLASS(BlueprintType)

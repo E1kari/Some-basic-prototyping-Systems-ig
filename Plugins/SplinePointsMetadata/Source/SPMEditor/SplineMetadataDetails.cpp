@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-/*
+
 
 #include "SplineMetadataDetails.h"
 
@@ -72,7 +72,7 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 				{
 					if (bUpdateTestFloat)
 					{
-						bUpdateTestFloat = UpdateMultipleValue(TestValue, Metadata->PointParams[Index].TestData);
+						bUpdateTestFloat = UpdateMultipleValue(TestValue, Metadata->PointParams[Index]);
 					}
 				}
 			}
@@ -80,7 +80,7 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 	}
 }
 
-
+/*
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& DetailGroup)
 {
 	UCustomSplineMetadata* Metadata = GetMetadata();
@@ -94,7 +94,7 @@ void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& DetailGroup)
 
 	DetailGroup.AddPropertyRow(ParamsHandle);
 }
-
+*/
 
 void FSplineMetadataDetails::OnSetValues(FSplineMetadataDetails& Details)
 {
@@ -108,7 +108,7 @@ void FSplineMetadataDetails::OnSetValues(FSplineMetadataDetails& Details)
 	GEditor->RedrawLevelEditingViewports(true);
 }
 
-void FSplineMetadataDetails::OnSetTestFloat(FZoneLayer NewValue, ETextCommit::Type CommitInfo)
+void FSplineMetadataDetails::OnSetZoneLayer(FZoneLayer NewValue, ETextCommit::Type CommitInfo)
 {
 	if (UCustomSplineMetadata* Metadata = GetMetadata())
 	{
@@ -116,7 +116,7 @@ void FSplineMetadataDetails::OnSetTestFloat(FZoneLayer NewValue, ETextCommit::Ty
 
 		for (int32 Index : SelectedKeys)
 		{
-			Metadata->PointParams[Index].TestData = NewValue;
+			Metadata->PointParams[Index] = NewValue;
 		}
 
 		OnSetValues(*this);
@@ -129,10 +129,9 @@ UCustomSplineMetadata* FSplineMetadataDetails::GetMetadata() const
 	return Metadata;
 }
 
-TOptional<FZoneLayer> FSplineMetadataDetails::GetTestFloat() const 
+TOptional<FZoneLayer> FSplineMetadataDetails::GetZoneLayer() const 
 { 
 	return TestValue; 
 }
 
 #undef LOCTEXT_NAMESPACE
-*/

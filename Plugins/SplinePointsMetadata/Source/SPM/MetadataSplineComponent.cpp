@@ -24,11 +24,11 @@ TArray<FZoneLayer> UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 Poin
   {
     if (ensure(SplineMetadata->PointParams.IsValidIndex(PointIndex)))
     {
-      return SplineMetadata->PointParams[PointIndex].Zones;
+      return SplineMetadata->PointParams;
     }
   }
 
-  return {{{EZoneName::ZoneDefault, 0, 0}, 0}};
+  return {{EZoneName::ZoneDefault, 0}};
 }
 
 UCustomSplineMetadata* UMetadataSplineComponent::GetSplineMetadata() const 

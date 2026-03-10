@@ -1,4 +1,4 @@
-/*
+
 #pragma once
 
 #include <CoreMinimal.h>
@@ -31,12 +31,11 @@ public:
 
 private:
 	UCustomSplineMetadata* GetMetadata() const;
-	TOptional<FZoneLayer> GetTestFloat() const;
-	void OnSetTestFloat(FZoneLayer NewValue, ETextCommit::Type CommitInfo);
+	TOptional<FZoneLayer> GetZoneLayer() const;
+	void OnSetZoneLayer(FZoneLayer NewValue, ETextCommit::Type CommitInfo);
 	void OnSetValues(FSplineMetadataDetails& Details);
 
 	TOptional<FZoneLayer> TestValue;
 	USplineComponent* SplineComp = nullptr;
 	TSet<int32> SelectedKeys;
 };
-*/

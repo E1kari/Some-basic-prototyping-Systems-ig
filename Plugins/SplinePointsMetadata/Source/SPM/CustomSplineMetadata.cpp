@@ -11,7 +11,7 @@ void UCustomSplineMetadata::InsertPoint(int32 Index, float t, bool bClosedLoop)
 	}
 	else
 	{
-		PointParams.Insert(FSplinePointParams{}, Index);
+		PointParams.Insert(FZoneLayer{}, Index);
 	}
 
 	Modify();
@@ -24,7 +24,7 @@ void UCustomSplineMetadata::UpdatePoint(int32 Index, float t, bool bClosedLoop)
 
 void UCustomSplineMetadata::AddPoint(float InputKey)
 {
-	PointParams.Add(FSplinePointParams{});
+	PointParams.Add(FZoneLayer{});
 	Modify();
 }
 
@@ -36,7 +36,7 @@ void UCustomSplineMetadata::RemovePoint(int32 Index)
 
 void UCustomSplineMetadata::DuplicatePoint(int32 Index)
 {
-	FSplinePointParams NewVal = PointParams[Index];
+	FZoneLayer NewVal = PointParams[Index];
 	PointParams.Insert(NewVal, Index);
 	Modify();
 }
@@ -66,7 +66,7 @@ void UCustomSplineMetadata::Fixup(int32 NumPoints, USplineComponent* SplineComp)
 
 	while (PointParams.Num() < NumPoints)
 	{
-		PointParams.Add(FSplinePointParams{});
+		PointParams.Add(FZoneLayer{});
 		Modify();
 	}
 }
