@@ -23,9 +23,19 @@ class SPMEDITOR_API UMySplineMetadataDetailsFactory : public USplineMetadataDeta
 class SPMEDITOR_API FSplineMetadataDetails : public ISplineMetadataDetails, public TSharedFromThis<FSplineMetadataDetails>
 {
 public:
+	virtual ~FSplineMetadataDetails() {}
 	virtual FName GetName() const override;
 	virtual FText GetDisplayName() const override;
+	virtual void Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys) override;
+	//virtual void GenerateChildContent(IDetailGroup& DetailGroup) override;
 
 private:
-	
+	UCustomSplineMetadata* GetMetadata() const;
+	TOptional<FZoneLayer> GetZoneLayer() const;
+	void OnSetZoneLayer(FZoneLayer NewValue, ETextCommit::Type CommitInfo);
+	void OnSetValues(FSplineMetadataDetails& Details);
+
+	TOptional<FZoneLayer> TestValue;
+	USplineComponent* SplineComp = nullptr;
+	TSet<int32> SelectedKeys;
 };
