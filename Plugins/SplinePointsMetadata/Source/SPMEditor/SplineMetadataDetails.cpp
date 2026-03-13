@@ -42,38 +42,36 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 
 	ZoneOptions.Reset();
 
-	ZoneOptions.Add(MakeShared<EZoneName>(EZoneName::ZoneDefault));
-	ZoneOptions.Add(MakeShared<EZoneName>(EZoneName::ZoneCone));
-	ZoneOptions.Add(MakeShared<EZoneName>(EZoneName::Zone0));
-	ZoneOptions.Add(MakeShared<EZoneName>(EZoneName::Zone1));
-	ZoneOptions.Add(MakeShared<EZoneName>(EZoneName::Zone2));
+	for (EZoneName Val : TEnumRange<EZoneName>())
+	{
+		ZoneOptions.Add(MakeShared<EZoneName>(Val));
+	}
 
 	RebuildZoneArrayWidget();
 }
 
 UCustomSplineMetadata* FSplineMetadataDetails::GetMetadata() const
 {
-	return SplineComp ? Cast<UCustomSplineMetadata>(SplineComp->GetSplinePointsMetadata()) : nullptr;
+	if (SplineComp)
+	{
+		return Cast<UCustomSplineMetadata>(SplineComp->GetSplinePointsMetadata());
+	}
+	
+	return nullptr;
 }
 
 FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
 {
 	UCustomSplineMetadata* Metadata = GetMetadata();
-	if (!Metadata || SelectedKeys.Num() != 1)
+	
+	if (!IsValid(Metadata) || SelectedKeys.Num() != 1)
 	{
 		return nullptr;
 	}
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
 
-	if (Metadata->PointParams.ZoneLayers.IsValid(SelectedIndex))
-	{
-		return &Metadata->PointParams.ZoneLayers[SelectedIndex];
-	}
-	else
-	{
-		return nullptr;
-	}
+	return &Metadata->PointParams;
 }
 
 const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() const
@@ -85,14 +83,21 @@ const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() 
 	}
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
-
-	return Metadata->PointParams.ZoneLayers.IsValidIndex(SelectedIndex)
-		? &Metadata->PointParams.ZoneLayers[SelectedIndex]
-		: nullptr;
+	return &Metadata->PointParams;
 }
 
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 {
+	InGroup.AddWidgetRow()
+.WholeRowContent()
+[
+	SNew(STextBlock)
+	.Text(FText::FromString(
+		FString::Printf(TEXT("Metadata: %s | SelectedKeys: %d"),
+			GetMetadata() ? TEXT("yes") : TEXT("no"),
+			SelectedKeys.Num())))
+];
+	
 	InGroup.AddWidgetRow()
 	.NameContent()
 	[
@@ -103,8 +108,12 @@ void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 	.MinDesiredWidth(500.f)
 	.MaxDesiredWidth(800.f)
 	[
+	SNew(SBox)
+	.MinDesiredWidth(500.f)
+	[
 		SAssignNew(ZoneListBox, SVerticalBox)
-	];
+	]
+];
 
 	RebuildZoneArrayWidget();
 
@@ -123,6 +132,7 @@ void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 
 void FSplineMetadataDetails::RebuildZoneArrayWidget()
 {
+	UE_LOG(LogTemp, Warning, TEXT("desperation"));
 	if (!ZoneListBox.IsValid())
 	{
 		return;
@@ -135,7 +145,7 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 	{
 		ZoneListBox->AddSlot()
 		.AutoHeight()
-		.Padding(0.f, 2.f)
+		.Padding(0.f, 5.f)
 		[
 			SNew(STextBlock)
 			.Text(LOCTEXT("SelectSinglePoint", "Select exactly one spline point to edit zone layers."))
@@ -150,19 +160,19 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 		.Padding(0.f, 4.f)
 		[
 			SNew(SHorizontalBox)
-
+			
 			+ SHorizontalBox::Slot()
 			.AutoWidth()
 			.VAlign(VAlign_Center)
-			.Padding(0.f, 0.f, 8.f, 0.f)
+			.Padding(0.f, 5.0f, 0.f, 5.0f)
 			[
 				SNew(STextBlock)
 				.Text(FText::Format(LOCTEXT("LayerLabelFmt", "Layer {0}"), FText::AsNumber(LayerIndex)))
 			]
-
+			
 			+ SHorizontalBox::Slot()
 			.FillWidth(0.45f)
-			.Padding(0.f, 0.f, 8.f, 0.f)
+			.Padding(0.f, 0.f, 0.f, 0.f)
 			[
 				SNew(SComboBox<TSharedPtr<EZoneName>>)
 				.OptionsSource(&ZoneOptions)
@@ -177,7 +187,7 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 					.Text(this, &FSplineMetadataDetails::GetCurrentZoneLabel, LayerIndex)
 				]
 			]
-
+			
 			+ SHorizontalBox::Slot()
 			.FillWidth(0.35f)
 			.Padding(0.f, 0.f, 8.f, 0.f)
@@ -202,6 +212,13 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 			]
 		];
 	}
+	
+	if (ZoneListBox.IsValid())
+	{
+		ZoneListBox->Invalidate(EInvalidateWidgetReason::Layout);
+	}
+	
+	ZoneListBox->Invalidate(EInvalidateWidgetReason::PaintAndVolatility);
 }
 
 void FSplineMetadataDetails::OnAddZoneLayer()
@@ -319,6 +336,7 @@ FText FSplineMetadataDetails::GetCurrentZoneLabel(int32 LayerIndex) const
 
 void FSplineMetadataDetails::NotifyChanged()
 {
+	UE_LOG(LogTemp, Warning, TEXT("make it stop"));
 	if (!SplineComp)
 	{
 		return;
