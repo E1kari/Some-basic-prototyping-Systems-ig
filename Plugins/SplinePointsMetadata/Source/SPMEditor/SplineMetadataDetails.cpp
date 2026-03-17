@@ -60,7 +60,7 @@ UCustomSplineMetadata* FSplineMetadataDetails::GetMetadata() const
 	return nullptr;
 }
 
-FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
+USplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
 {
 	UCustomSplineMetadata* Metadata = GetMetadata();
 	
@@ -71,10 +71,10 @@ FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
 
-	return &Metadata->PointParams;
+	return Metadata->PointParams;
 }
 
-const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() const
+const USplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() const
 {
 	const UCustomSplineMetadata* Metadata = GetMetadata();
 	if (!Metadata || SelectedKeys.Num() != 1)
@@ -83,7 +83,7 @@ const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() 
 	}
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
-	return &Metadata->PointParams;
+	return Metadata->PointParams;
 }
 
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
@@ -140,7 +140,7 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 
 	ZoneListBox->ClearChildren();
 
-	const FSplinePointParams* Params = GetSelectedPointParamsConst();
+	const USplinePointParams* Params = GetSelectedPointParamsConst();
 	if (!Params)
 	{
 		ZoneListBox->AddSlot()
@@ -223,7 +223,7 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 
 void FSplineMetadataDetails::OnAddZoneLayer()
 {
-	FSplinePointParams* Params = GetSelectedPointParams();
+	USplinePointParams* Params = GetSelectedPointParams();
 	if (!Params)
 	{
 		return;
@@ -236,9 +236,9 @@ void FSplineMetadataDetails::OnAddZoneLayer()
 		Metadata->Modify();
 	}
 
-	FZoneLayer& NewLayer = Params->ZoneLayers.AddDefaulted_GetRef();
-	NewLayer.ZoneName = EZoneName::ZoneDefault;
-	NewLayer.Distance = 10.f;
+	UZoneLayer* NewLayer = Params->ZoneLayers.AddDefaulted_GetRef();
+	NewLayer->ZoneName = EZoneName::ZoneDefault;
+	NewLayer->Distance = 10.f;
 
 	NotifyChanged();
 	RebuildZoneArrayWidget();
@@ -246,7 +246,7 @@ void FSplineMetadataDetails::OnAddZoneLayer()
 
 void FSplineMetadataDetails::OnRemoveZoneLayer(int32 LayerIndex)
 {
-	FSplinePointParams* Params = GetSelectedPointParams();
+	USplinePointParams* Params = GetSelectedPointParams();
 	if (!Params || !Params->ZoneLayers.IsValidIndex(LayerIndex))
 	{
 		return;
@@ -267,18 +267,18 @@ void FSplineMetadataDetails::OnRemoveZoneLayer(int32 LayerIndex)
 
 TOptional<float> FSplineMetadataDetails::GetLayerDistance(int32 LayerIndex) const
 {
-	const FSplinePointParams* Params = GetSelectedPointParamsConst();
+	const USplinePointParams* Params = GetSelectedPointParamsConst();
 	if (!Params || !Params->ZoneLayers.IsValidIndex(LayerIndex))
 	{
 		return TOptional<float>();
 	}
 
-	return Params->ZoneLayers[LayerIndex].Distance;
+	return Params->ZoneLayers[LayerIndex]->Distance;
 }
 
 void FSplineMetadataDetails::OnLayerDistanceCommitted(float NewValue, ETextCommit::Type CommitType, int32 LayerIndex)
 {
-	FSplinePointParams* Params = GetSelectedPointParams();
+	USplinePointParams* Params = GetSelectedPointParams();
 	if (!Params || !Params->ZoneLayers.IsValidIndex(LayerIndex))
 	{
 		return;
@@ -291,7 +291,7 @@ void FSplineMetadataDetails::OnLayerDistanceCommitted(float NewValue, ETextCommi
 		Metadata->Modify();
 	}
 
-	Params->ZoneLayers[LayerIndex].Distance = NewValue;
+	Params->ZoneLayers[LayerIndex]->Distance = NewValue;
 
 	NotifyChanged();
 }
@@ -303,7 +303,7 @@ void FSplineMetadataDetails::OnLayerZoneNameChanged(TSharedPtr<EZoneName> NewSel
 		return;
 	}
 
-	FSplinePointParams* Params = GetSelectedPointParams();
+	USplinePointParams* Params = GetSelectedPointParams();
 	if (!Params || !Params->ZoneLayers.IsValidIndex(LayerIndex))
 	{
 		return;
@@ -316,7 +316,7 @@ void FSplineMetadataDetails::OnLayerZoneNameChanged(TSharedPtr<EZoneName> NewSel
 		Metadata->Modify();
 	}
 
-	Params->ZoneLayers[LayerIndex].ZoneName = *NewSelection;
+	Params->ZoneLayers[LayerIndex]->ZoneName = *NewSelection;
 
 	NotifyChanged();
 	RebuildZoneArrayWidget();
@@ -324,14 +324,14 @@ void FSplineMetadataDetails::OnLayerZoneNameChanged(TSharedPtr<EZoneName> NewSel
 
 FText FSplineMetadataDetails::GetCurrentZoneLabel(int32 LayerIndex) const
 {
-	const FSplinePointParams* Params = GetSelectedPointParamsConst();
+	const USplinePointParams* Params = GetSelectedPointParamsConst();
 	if (!Params || !Params->ZoneLayers.IsValidIndex(LayerIndex))
 	{
 		return LOCTEXT("InvalidZone", "Invalid");
 	}
 
 	return StaticEnum<EZoneName>()->GetDisplayNameTextByValue(
-		static_cast<int64>(Params->ZoneLayers[LayerIndex].ZoneName));
+		static_cast<int64>(Params->ZoneLayers[LayerIndex]->ZoneName));
 }
 
 void FSplineMetadataDetails::NotifyChanged()

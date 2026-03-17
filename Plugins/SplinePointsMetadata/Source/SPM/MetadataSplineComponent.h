@@ -18,7 +18,7 @@ public:
   UMetadataSplineComponent();
 
   UFUNCTION(BlueprintCallable)
-  TArray<FZoneLayer> GetTestDataAtSplinePoint(int32 PointIndex);
+  TArray<UZoneLayer*> GetTestDataAtSplinePoint(int32 PointIndex);
   
   UCustomSplineMetadata *GetSplineMetadata() const;
   
