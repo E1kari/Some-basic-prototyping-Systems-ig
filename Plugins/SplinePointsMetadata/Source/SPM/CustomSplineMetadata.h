@@ -16,6 +16,7 @@ class SPM_API UCustomSplineMetadata : public USplineMetadata
 	GENERATED_BODY()
 
 public:
+	
 	virtual void InsertPoint(int32 Index, float t, bool bClosedLoop) override;
 	virtual void UpdatePoint(int32 Index, float t, bool bClosedLoop) override;
 	virtual void AddPoint(float InputKey) override;
@@ -26,5 +27,8 @@ public:
 	virtual void Fixup(int32 NumPoints, USplineComponent* SplineComp) override;
 
 	UPROPERTY(EditAnywhere)
-	FSplinePointParams PointParams;
+	USplinePointParams* PointParams;
+	
+	private:
+	void EnsurePointParams();
 };
