@@ -33,8 +33,8 @@ public:
 
 private:
 	UCustomSplineMetadata* GetMetadata() const;
-	USplinePointParams* GetSelectedPointParams() const;
-	const USplinePointParams* GetSelectedPointParamsConst() const;
+	FSplinePointParams* GetSelectedPointParams() const;
+	const FSplinePointParams* GetSelectedPointParamsConst() const;
 
 	void RebuildZoneArrayWidget();
 	void NotifyChanged();

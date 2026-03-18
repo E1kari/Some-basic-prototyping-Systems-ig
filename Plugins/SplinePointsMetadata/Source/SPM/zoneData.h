@@ -32,12 +32,11 @@ struct FZoneData
 	float Rubberband = 0.25f;
 };
 
-UCLASS(BlueprintType)
-class UZoneLayer : public UObject
+USTRUCT(BlueprintType)
+struct FZoneLayer
 {
 	GENERATED_BODY()
 
-public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EZoneName ZoneName = EZoneName::ZoneDefault;
 
@@ -45,26 +44,39 @@ public:
 	float Distance = 10.0f;
 	
 	
-	bool operator==(const UZoneLayer& Other) const
+	bool operator==(const FZoneLayer& Other) const
 	{
 		return ZoneName == Other.ZoneName
 			&& Distance == Other.Distance;
 	}
 
-	bool operator!=(const UZoneLayer& Other) const
+	bool operator!=(const FZoneLayer& Other) const
 	{
 		return !(*this == Other);
 	}
 };
 
-UCLASS(BlueprintType)
-class USplinePointParams : public UObject
+USTRUCT(BlueprintType)
+struct FSplinePointParams
 {
 	GENERATED_BODY()
 	
-public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UZoneLayer*> ZoneLayers;
+	TArray<FZoneLayer> ZoneLayers =
+    	{
+    		{
+    			EZoneName::Zone0,
+    			5
+    		},
+    		{
+    			EZoneName::Zone1,
+    			10
+    		},
+    		{
+    		EZoneName::Zone2,
+    			15
+    		}
+    	};
 };
 
 UCLASS(BlueprintType)

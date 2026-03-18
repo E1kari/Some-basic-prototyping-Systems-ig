@@ -3,23 +3,15 @@
 
 #include "CustomSplineMetadata.h"
 
-void UCustomSplineMetadata::EnsurePointParams()
-{
-	if (!PointParams)
-	{
-		PointParams = NewObject<USplinePointParams>(this);
-	}
-}
-
 void UCustomSplineMetadata::InsertPoint(int32 Index, float t, bool bClosedLoop)
 {
-	if (Index >= PointParams->ZoneLayers.Num())
+	if (Index >= PointParams.ZoneLayers.Num())
 	{
 		AddPoint(static_cast<float>(Index));
 	}
 	else
 	{
-		PointParams->ZoneLayers.Insert(NewObject<UZoneLayer>(PointParams), Index);
+		PointParams.ZoneLayers.Insert(FZoneLayer{}, Index);
 	}
 
 	Modify();
@@ -32,21 +24,21 @@ void UCustomSplineMetadata::UpdatePoint(int32 Index, float t, bool bClosedLoop)
 
 void UCustomSplineMetadata::AddPoint(float InputKey)
 {
-	PointParams->ZoneLayers.Add(NewObject<UZoneLayer>(PointParams));
+	PointParams.ZoneLayers.Add(FZoneLayer{});
 	Modify();
 }
 
 void UCustomSplineMetadata::RemovePoint(int32 Index)
 {
-	PointParams->ZoneLayers.RemoveAt(Index);
+	PointParams.ZoneLayers.RemoveAt(Index);
 	Modify();
 }
 
 
 void UCustomSplineMetadata::DuplicatePoint(int32 Index)
 {
-	UZoneLayer* NewVal = PointParams->ZoneLayers[Index];
-	PointParams->ZoneLayers.Insert(NewVal, Index);
+	FZoneLayer NewVal = PointParams.ZoneLayers[Index];
+	PointParams.ZoneLayers.Insert(NewVal, Index);
 	Modify();
 }
 
@@ -55,30 +47,28 @@ void UCustomSplineMetadata::CopyPoint(const USplineMetadata* FromSplineMetadata,
 {
 	if (const UCustomSplineMetadata* FromMetadata = Cast<UCustomSplineMetadata>(FromSplineMetadata))
 	{
-		PointParams->ZoneLayers[ToIndex] = PointParams->ZoneLayers[FromIndex];
+		PointParams.ZoneLayers[ToIndex] = PointParams.ZoneLayers[FromIndex];
 		Modify();
 	}
 }
 
 void UCustomSplineMetadata::Reset(int32 NumPoints)
 {
-	PointParams->ZoneLayers.Reset(NumPoints);
+	PointParams.ZoneLayers.Reset(NumPoints);
 	Modify();
 }
 
 void UCustomSplineMetadata::Fixup(int32 NumPoints, USplineComponent* SplineComp)
 {
-	EnsurePointParams();
-	
-	if (PointParams->ZoneLayers.Num() > NumPoints)
+	if (PointParams.ZoneLayers.Num() > NumPoints)
 	{
-		PointParams->ZoneLayers.RemoveAt(NumPoints, PointParams->ZoneLayers.Num() - NumPoints);
+		PointParams.ZoneLayers.RemoveAt(NumPoints, PointParams.ZoneLayers.Num() - NumPoints);
 		Modify();
 	}
 
-	while (PointParams->ZoneLayers.Num() < NumPoints)
+	while (PointParams.ZoneLayers.Num() < NumPoints)
 	{
-		PointParams->ZoneLayers.Add(NewObject<UZoneLayer>(PointParams));
+		PointParams.ZoneLayers.Add(FZoneLayer{});
 		Modify();
 	}
 }

@@ -18,14 +18,14 @@ void UMetadataSplineComponent::EnsureSplineMetadata()
   }
 }
 
-TArray<UZoneLayer*> UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 PointIndex)
+TArray<FZoneLayer> UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 PointIndex)
 {
   if (ensure(SplineMetadata))
   {
-    return SplineMetadata->PointParams->ZoneLayers;
+    return SplineMetadata->PointParams.ZoneLayers;
   }
 
-  return TArray<UZoneLayer*>();
+  return TArray<FZoneLayer>();
 }
 
 UCustomSplineMetadata* UMetadataSplineComponent::GetSplineMetadata() const 
