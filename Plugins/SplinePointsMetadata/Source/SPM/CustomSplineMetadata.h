@@ -27,6 +27,6 @@ public:
 	virtual void Fixup(int32 NumPoints, USplineComponent* SplineComp) override;
 
 	UPROPERTY(EditAnywhere)
-	FSplinePointParams PointParams;
+	TArray<FSplinePointParams> PointParams;
 	
 };

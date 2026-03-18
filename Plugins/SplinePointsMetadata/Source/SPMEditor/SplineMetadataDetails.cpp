@@ -71,7 +71,7 @@ FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
 
-	return &Metadata->PointParams;
+	return &Metadata->PointParams[SelectedIndex];
 }
 
 const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() const
@@ -83,20 +83,11 @@ const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() 
 	}
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
-	return &Metadata->PointParams;
+	return &Metadata->PointParams[SelectedIndex];
 }
 
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 {
-	InGroup.AddWidgetRow()
-.WholeRowContent()
-[
-	SNew(STextBlock)
-	.Text(FText::FromString(
-		FString::Printf(TEXT("Metadata: %s | SelectedKeys: %d"),
-			GetMetadata() ? TEXT("yes") : TEXT("no"),
-			SelectedKeys.Num())))
-];
 	
 	InGroup.AddWidgetRow()
 	.NameContent()
@@ -171,7 +162,7 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 			]
 			
 			+ SHorizontalBox::Slot()
-			.FillWidth(0.45f)
+			.AutoWidth()
 			.Padding(0.f, 0.f, 0.f, 0.f)
 			[
 				SNew(SComboBox<TSharedPtr<EZoneName>>)
@@ -189,7 +180,7 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 			]
 			
 			+ SHorizontalBox::Slot()
-			.FillWidth(0.35f)
+			.AutoWidth()
 			.Padding(0.f, 0.f, 8.f, 0.f)
 			[
 				SNew(SNumericEntryBox<float>)
@@ -213,12 +204,8 @@ void FSplineMetadataDetails::RebuildZoneArrayWidget()
 		];
 	}
 	
-	if (ZoneListBox.IsValid())
-	{
-		ZoneListBox->Invalidate(EInvalidateWidgetReason::Layout);
-	}
-	
-	ZoneListBox->Invalidate(EInvalidateWidgetReason::PaintAndVolatility);
+	ZoneListBox->Invalidate(EInvalidateWidgetReason::Layout);
+	ZoneListBox->SlatePrepass();
 }
 
 void FSplineMetadataDetails::OnAddZoneLayer()

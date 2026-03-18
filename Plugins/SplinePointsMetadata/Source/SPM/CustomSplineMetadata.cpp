@@ -5,13 +5,13 @@
 
 void UCustomSplineMetadata::InsertPoint(int32 Index, float t, bool bClosedLoop)
 {
-	if (Index >= PointParams.ZoneLayers.Num())
+	if (Index >= PointParams.Num())
 	{
 		AddPoint(static_cast<float>(Index));
 	}
 	else
 	{
-		PointParams.ZoneLayers.Insert(FZoneLayer{}, Index);
+		PointParams.Insert(FSplinePointParams{}, Index);
 	}
 
 	Modify();
@@ -24,21 +24,21 @@ void UCustomSplineMetadata::UpdatePoint(int32 Index, float t, bool bClosedLoop)
 
 void UCustomSplineMetadata::AddPoint(float InputKey)
 {
-	PointParams.ZoneLayers.Add(FZoneLayer{});
+	PointParams.Add(FSplinePointParams{});
 	Modify();
 }
 
 void UCustomSplineMetadata::RemovePoint(int32 Index)
 {
-	PointParams.ZoneLayers.RemoveAt(Index);
+	PointParams.RemoveAt(Index);
 	Modify();
 }
 
 
 void UCustomSplineMetadata::DuplicatePoint(int32 Index)
 {
-	FZoneLayer NewVal = PointParams.ZoneLayers[Index];
-	PointParams.ZoneLayers.Insert(NewVal, Index);
+	FSplinePointParams NewVal = PointParams[Index];
+	PointParams.Insert(NewVal, Index);
 	Modify();
 }
 
@@ -47,28 +47,28 @@ void UCustomSplineMetadata::CopyPoint(const USplineMetadata* FromSplineMetadata,
 {
 	if (const UCustomSplineMetadata* FromMetadata = Cast<UCustomSplineMetadata>(FromSplineMetadata))
 	{
-		PointParams.ZoneLayers[ToIndex] = PointParams.ZoneLayers[FromIndex];
+		PointParams[ToIndex] = PointParams[FromIndex];
 		Modify();
 	}
 }
 
 void UCustomSplineMetadata::Reset(int32 NumPoints)
 {
-	PointParams.ZoneLayers.Reset(NumPoints);
+	PointParams.Reset(NumPoints);
 	Modify();
 }
 
 void UCustomSplineMetadata::Fixup(int32 NumPoints, USplineComponent* SplineComp)
 {
-	if (PointParams.ZoneLayers.Num() > NumPoints)
+	if (PointParams.Num() > NumPoints)
 	{
-		PointParams.ZoneLayers.RemoveAt(NumPoints, PointParams.ZoneLayers.Num() - NumPoints);
+		PointParams.RemoveAt(NumPoints, PointParams.Num() - NumPoints);
 		Modify();
 	}
 
-	while (PointParams.ZoneLayers.Num() < NumPoints)
+	while (PointParams.Num() < NumPoints)
 	{
-		PointParams.ZoneLayers.Add(FZoneLayer{});
+		PointParams.Add(FSplinePointParams{});
 		Modify();
 	}
 }

@@ -22,7 +22,7 @@ TArray<FZoneLayer> UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 Poin
 {
   if (ensure(SplineMetadata))
   {
-    return SplineMetadata->PointParams.ZoneLayers;
+    return SplineMetadata->PointParams[PointIndex].ZoneLayers;
   }
 
   return TArray<FZoneLayer>();
