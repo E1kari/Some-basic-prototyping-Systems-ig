@@ -35,8 +35,29 @@ FText FSplineMetadataDetails::GetDisplayName() const
 	return LOCTEXT("SplineMetadataDisplayName", "Zones");
 }
 
+static bool AreSelectedKeysEqual(const TSet<int32>& A, const TSet<int32>& B)
+{
+	if (A.Num() != B.Num())
+	{
+		return false;
+	}
+
+	for (int32 Value : A)
+	{
+		if (!B.Contains(Value))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const TSet<int32>& InSelectedKeys)
 {
+	const bool bSplineChanged = (SplineComp != InSplineComponent);
+	const bool bSelectionChanged = !AreSelectedKeysEqual(SelectedKeys, InSelectedKeys);
+	
 	SplineComp = InSplineComponent;
 	SelectedKeys = InSelectedKeys;
 
@@ -47,7 +68,10 @@ void FSplineMetadataDetails::Update(USplineComponent* InSplineComponent, const T
 		ZoneOptions.Add(MakeShared<EZoneName>(Val));
 	}
 
-	RebuildZoneArrayWidget();
+	if (bSplineChanged || bSelectionChanged)
+	{
+		RebuildZoneArrayWidget();
+	}
 }
 
 UCustomSplineMetadata* FSplineMetadataDetails::GetMetadata() const
