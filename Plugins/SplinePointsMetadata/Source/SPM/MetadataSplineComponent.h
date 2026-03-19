@@ -5,6 +5,8 @@
 #include <CoreMinimal.h>
 
 #include <Components/SplineComponent.h>
+
+#include "zoneData.h"
 #include "MetadataSplineComponent.generated.h"
 
 class UCustomSplineMetadata;
@@ -18,7 +20,7 @@ public:
   UMetadataSplineComponent();
 
   UFUNCTION(BlueprintCallable)
-  TArray<FZoneLayer> GetTestDataAtSplinePoint(int32 PointIndex);
+  TArray<FZoneLayer> GetDataAtSplinePoint(int32 PointIndex);
   
   UCustomSplineMetadata *GetSplineMetadata() const;
   

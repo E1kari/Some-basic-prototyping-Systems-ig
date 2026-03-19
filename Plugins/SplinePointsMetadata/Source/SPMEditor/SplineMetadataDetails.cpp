@@ -100,13 +100,22 @@ FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
 
 const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() const
 {
-	const UCustomSplineMetadata* Metadata = GetMetadata();
+	UCustomSplineMetadata* Metadata = GetMetadata();
 	if (!Metadata || SelectedKeys.Num() != 1)
 	{
 		return nullptr;
 	}
-
+	
+	Metadata->Fixup(SplineComp->GetNumberOfSplinePoints(), SplineComp);
+	
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
+	
+	if (SelectedIndex >= Metadata->PointParams.Num())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Out of bounds"));
+		return nullptr;
+	}
+	
 	return &Metadata->PointParams[SelectedIndex];
 }
 
@@ -131,7 +140,7 @@ void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 ];
 
 	RebuildZoneArrayWidget();
-
+	
 	InGroup.AddWidgetRow()
 	.WholeRowContent()
 	[
@@ -147,7 +156,6 @@ void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 
 void FSplineMetadataDetails::RebuildZoneArrayWidget()
 {
-	UE_LOG(LogTemp, Warning, TEXT("desperation"));
 	if (!ZoneListBox.IsValid())
 	{
 		return;
@@ -347,7 +355,6 @@ FText FSplineMetadataDetails::GetCurrentZoneLabel(int32 LayerIndex) const
 
 void FSplineMetadataDetails::NotifyChanged()
 {
-	UE_LOG(LogTemp, Warning, TEXT("make it stop"));
 	if (!SplineComp)
 	{
 		return;

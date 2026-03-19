@@ -8,6 +8,7 @@
 UMetadataSplineComponent::UMetadataSplineComponent()
 {
   SplineMetadata = CreateDefaultSubobject<UCustomSplineMetadata>(TEXT("SplineMetadata"));
+  FixupPoints();
 }
 
 void UMetadataSplineComponent::EnsureSplineMetadata()
@@ -18,9 +19,9 @@ void UMetadataSplineComponent::EnsureSplineMetadata()
   }
 }
 
-TArray<FZoneLayer> UMetadataSplineComponent::GetTestDataAtSplinePoint(int32 PointIndex)
+TArray<FZoneLayer> UMetadataSplineComponent::GetDataAtSplinePoint(int32 PointIndex)
 {
-  if (ensure(SplineMetadata))
+  if (ensure(SplineMetadata) && PointIndex < SplineMetadata->PointParams.Num())
   {
     return SplineMetadata->PointParams[PointIndex].ZoneLayers;
   }
