@@ -33,6 +33,8 @@ public:
   PostEditChangeProperty(FPropertyChangedEvent &PropertyChangedEvent) override;
   virtual void PostEditImport() override;
 #endif
+
+UFUNCTION(BlueprintCallable)
   void FixupPoints();
   
   private:
