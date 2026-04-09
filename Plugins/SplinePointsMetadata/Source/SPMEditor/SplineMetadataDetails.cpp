@@ -88,6 +88,7 @@ const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() 
 
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 {
+/*
 	InGroup.AddWidgetRow()
 .WholeRowContent()
 [
@@ -128,11 +129,11 @@ void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
 			return FReply::Handled();
 		})
 	];
+ */
 }
 
 void FSplineMetadataDetails::RebuildZoneArrayWidget()
 {
-	UE_LOG(LogTemp, Warning, TEXT("desperation"));
 	if (!ZoneListBox.IsValid())
 	{
 		return;
