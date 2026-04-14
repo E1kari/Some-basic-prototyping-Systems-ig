@@ -27,6 +27,9 @@ struct FZoneData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Speed = 3.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Gravity = 3.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FLinearColor Color = FColor::White;
