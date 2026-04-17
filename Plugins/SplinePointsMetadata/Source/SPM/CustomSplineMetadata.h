@@ -7,6 +7,7 @@
 #include <Components/SplineComponent.h>
 #include "MetadataSplineComponent.h"
 #include "zoneData.h"
+#include "SplineForward.h"
 
 #include "CustomSplineMetadata.generated.h"
 
@@ -16,6 +17,8 @@ class SPM_API UCustomSplineMetadata : public USplineMetadata
 	GENERATED_BODY()
 
 public:
+	
+	void ForwardToOwner(ESplineForwardedEvent EventName, FSplinePayload Payload);
 	
 	virtual void InsertPoint(int32 Index, float t, bool bClosedLoop) override;
 	virtual void UpdatePoint(int32 Index, float t, bool bClosedLoop) override;

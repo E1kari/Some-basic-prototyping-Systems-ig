@@ -18,6 +18,7 @@ class SPM_API UMetadataSplineComponent : public USplineComponent {
 
 public:
   UMetadataSplineComponent();
+  
 
   UFUNCTION(BlueprintCallable)
   TArray<FZoneLayer> GetDataAtSplinePoint(int32 PointIndex);

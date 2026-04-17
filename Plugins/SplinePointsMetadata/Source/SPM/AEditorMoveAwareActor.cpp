@@ -4,7 +4,7 @@
 
 void AEditorMoveAwareActor::OnMoveFinishedInEditor_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Native OnMoveFinishedInEditor_Implementation fired"));
+	//UE_LOG(LogTemp, Warning, TEXT("Native OnMoveFinishedInEditor_Implementation fired"));
 }
 
 #if WITH_EDITOR
@@ -14,10 +14,20 @@ void AEditorMoveAwareActor::PostEditMove(bool bFinished)
 
 	if (bFinished)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Calling OnMoveFinishedInEditor"));
+		//UE_LOG(LogTemp, Warning, TEXT("Calling OnMoveFinishedInEditor"));
 
 		FEditorScriptExecutionGuard ScriptGuard;
 		OnMoveFinishedInEditor();
 	}
+}
+
+void AEditorMoveAwareActor::OnSplineEventForwarded_Implementation(
+	ESplineForwardedEvent EventType,
+	const FSplinePayload& Payload)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Actor native interface received: %s"),
+	//	*UEnum::GetValueAsString(EventType));
+
+	BP_OnSplineEventForwarded(EventType, Payload);
 }
 #endif

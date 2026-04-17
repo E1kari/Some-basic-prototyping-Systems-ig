@@ -5,6 +5,7 @@
 #include "CustomSplineMetadata.h"
 
 
+
 UMetadataSplineComponent::UMetadataSplineComponent()
 {
   SplineMetadata = CreateDefaultSubobject<UCustomSplineMetadata>(TEXT("SplineMetadata"));
