@@ -29,6 +29,9 @@ struct FZoneData
 	float Speed = 3.0f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float truningHalfAngle = 35.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Gravity = 3.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
