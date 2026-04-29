@@ -1,14 +1,11 @@
 @echo off
-cd /d "%~dp0"
-
 echo Cleaning Unreal build folders...
 
-rmdir /s /q "Binaries"
-rmdir /s /q "Intermediate"
-rmdir /s /q ".vs"
+rmdir /s /q "Binaries" 2>nul
+rmdir /s /q "Intermediate" 2>nul
+rmdir /s /q ".vs" 2>nul
 
-rmdir /s /q "Plugins\SplinePointsMetadata\Binaries"
-rmdir /s /q "Plugins\SplinePointsMetadata\Intermediate"
+rmdir /s /q "Plugins\FlightSystem\Binaries" 2>nul
+rmdir /s /q "Plugins\FlightSystem\Intermediate" 2>nul
 
 echo Done.
-pause

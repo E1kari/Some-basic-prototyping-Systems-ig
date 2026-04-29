@@ -19,6 +19,16 @@
 			"Name": "FlightSystem",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
-		}
+		},
+      {
+        "Name": "SPM",
+        "Type": "Runtime",
+        "LoadingPhase": "Default"
+      },
+      {
+        "Name": "SPMEditor",
+        "Type": "Runtime",
+        "LoadingPhase": "Default"
+      }
 	]
 }

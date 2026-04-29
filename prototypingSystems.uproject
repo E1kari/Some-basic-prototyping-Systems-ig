@@ -22,10 +22,6 @@
 		{
 			"Name": "PCG",
 			"Enabled": true
-		},
-		{
-			"Name": "SplinePointsMetadata",
-			"Enabled": true
 		}
 	]
 }
