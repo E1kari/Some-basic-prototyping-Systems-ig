@@ -26,7 +26,7 @@ void UCustomSplineMetadata::ForwardToOwner(ESplineForwardedEvent EventType, FSpl
 
 void UCustomSplineMetadata::InsertPoint(int32 Index, float t, bool bClosedLoop)
 {
-	if (Index >= PointParams.ZoneLayers.Num())
+	if (Index >= PointParams.Num())
 	{
 		AddPoint(static_cast<float>(Index));
 	}

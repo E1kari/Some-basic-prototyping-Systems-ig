@@ -71,7 +71,7 @@ FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParams() const
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
 
-	return &Metadata->PointParams;
+	return &Metadata->PointParams[SelectedIndex];
 }
 
 const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() const
@@ -83,7 +83,7 @@ const FSplinePointParams* FSplineMetadataDetails::GetSelectedPointParamsConst() 
 	}
 
 	const int32 SelectedIndex = *SelectedKeys.CreateConstIterator();
-	return &Metadata->PointParams;
+	return &Metadata->PointParams[SelectedIndex];
 }
 
 void FSplineMetadataDetails::GenerateChildContent(IDetailGroup& InGroup)
